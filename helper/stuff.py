@@ -13,8 +13,11 @@
 #    License can be found in < https://github.com/1Danish-00/CompressorBot/blob/main/License> .
 
 from .worker import *
+#from telethon.tl.functions.users import GetFullUserRequest
+from telethon import Button
+from datetime import datetime as dt
 
-
+# Ping command
 async def up(event):
     if not event.is_private:
         return
@@ -25,48 +28,63 @@ async def up(event):
     p = f"🌋Pɪɴɢ = {ms}ms"
     await event.reply(v + "\n" + p)
 
-
+# Start command
 async def start(event):
-    ok = await event.client(GetFullUserRequest(event.sender_id))
+    user = await event.get_sender()
     await event.reply(
-        f"Hi `{ok.user.first_name}`\nThis is A CompressorBot Which Can Encode Videos.\nReduce Size of Videos With Negligible Quality Change\nU can Generate Samples/screenshots too.",
+        f"Hi `{user.first_name}`\nThis is A CompressorBot Which Can Encode Videos.\nReduce Size of Videos With Negligible Quality Change\nU can Generate Samples/screenshots too.",
         buttons=[
             [Button.inline("HELP", data="ihelp")],
             [
-                Button.url("SOURCE CODE", url="github.com/1Danish-00/CompressorBot"),
-                Button.url("DEVELOPER", url="t.me/danish_00"),
+                Button.url("SOURCE CODE", url="https://github.com/1Danish-00/CompressorBot"),
+                Button.url("DEVELOPER", url="https://t.me/danish_00"),
             ],
         ],
     )
 
-
+# Help command
 async def help(event):
     await event.reply(
-        "**🐠 A Quality CompressorBot**\n\n+This Bot Compress Videos With Negligible Quality Change.\n+Generate Sample Compressed Video\n+Easy to Use\n-Due to Quality Settings Bot Takes Time To Compress.\nSo Be patience Nd Send videos One By One After Completing.\nDont Spam Bot.\n\nJust Forward Video To Get Options"
+        "**🐠 A Quality CompressorBot**\n\n"
+        "+ This Bot Compresses Videos With Negligible Quality Change.\n"
+        "+ Generate Sample Compressed Video\n"
+        "+ Easy to Use\n"
+        "- Due to Quality Settings, Bot Takes Time To Compress.\n"
+        "So Be Patient And Send Videos One By One After Completing.\n"
+        "Don't Spam the Bot.\n\n"
+        "Just Forward a Video To Get Options"
     )
 
-
+# Inline help
 async def ihelp(event):
     await event.edit(
-        "**🐠 A Quality CompressorBot**\n\n+This Bot Compress Videos With Negligible Quality Change.\n+Generate Sample Compressed Video\n+Screenshots Too\n+Easy to Use\n-Due to Quality Settings Bot Takes Time To Compress.\nSo Be patience Nd Send videos One By One After Completing.\nDont Spam Bot.\n\nJust Forward Video To Get Options",
+        "**🐠 A Quality CompressorBot**\n\n"
+        "+ This Bot Compresses Videos With Negligible Quality Change.\n"
+        "+ Generate Sample Compressed Video\n"
+        "+ Screenshots Too\n"
+        "+ Easy to Use\n"
+        "- Due to Quality Settings, Bot Takes Time To Compress.\n"
+        "So Be Patient And Send Videos One By One After Completing.\n"
+        "Don't Spam the Bot.\n\n"
+        "Just Forward a Video To Get Options",
         buttons=[Button.inline("BACK", data="beck")],
     )
 
-
+# Back to main menu
 async def beck(event):
-    ok = await event.client(GetFullUserRequest(event.sender_id))
+    user = await event.get_sender()
     await event.edit(
-        f"Hi `{ok.user.first_name}`\nThis is A CompressorBot Which Can Encode Videos.\nReduce Size of Videos With Negligible Quality Change\nU can Generate Samples/screenshots too.",
+        f"Hi `{user.first_name}`\nThis is A CompressorBot Which Can Encode Videos.\nReduce Size of Videos With Negligible Quality Change\nU can Generate Samples/screenshots too.",
         buttons=[
             [Button.inline("HELP", data="ihelp")],
             [
-                Button.url("SOURCE CODE", url="github.com/1Danish-00/"),
-                Button.url("DEVELOPER", url="t.me/danish_00"),
+                Button.url("SOURCE CODE", url="https://github.com/1Danish-00/"),
+                Button.url("DEVELOPER", url="https://t.me/danish_00"),
             ],
         ],
     )
 
-
+# Compression mode selection
 async def sencc(e):
     key = e.pattern_match.group(1).decode("UTF-8")
     await e.edit(
@@ -80,7 +98,7 @@ async def sencc(e):
         ],
     )
 
-
+# Back to video options
 async def back(e):
     key = e.pattern_match.group(1).decode("UTF-8")
     await e.edit(
